@@ -6,6 +6,12 @@ target 'DemoApp' do
   use_frameworks!
 
   # Pods for DemoApp
-
-
+  pod 'Alamofire'
+  pod 'SwiftyJSON'
+  pod 'ObjectMapper'
+  pod 'SDWebImage'
+  pod 'XLPagerTabStrip'
+  pod 'AlamofireImage'
+  pod 'ObjectMapper'
+  
 end

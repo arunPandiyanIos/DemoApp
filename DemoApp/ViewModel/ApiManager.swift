@@ -7,33 +7,45 @@
 //
 
 import Foundation
-
+import Alamofire
+import SwiftyJSON
+import UIKit
 
 class BaseService {
     
-//    func request(request: URLRequestConvertible, method: HTTPMethod = .post, callback: @escaping(_ error: String?, _ data: JSON) -> Void) {
-//
-//        Alamofire.request(request).validate().responseJSON { (response) in
-//            switch response.result {
-//            case .success(let value):
-//                guard let valueDictionary = value as? [String: Any] else {
-//                    callback("Unknown error. Please try again", [])
-//                    return
-//                }
-//
+     private let baseProdURL = URL(string: "https://rss.itunes.apple.com/api/v1/in/apple-music/coming-soon/all/100/explicit.json")!
+    
+    func buildRequest( method: HTTPMethod = .post) -> URLRequest {
+        
+        var request = URLRequest(url: baseProdURL)
+        request.httpMethod = method.rawValue
+       
+        return request
+    }
+    
+    func request(request: URLRequestConvertible, method: HTTPMethod = .post, callback: @escaping(_ error: String?, _ data: JSON) -> Void) {
+
+        AF.request(request).validate().responseJSON { (response) in
+            switch response.result {
+            case .success(let value):
+                guard let valueDictionary = value as? [String: Any] else {
+                    callback("Unknown error. Please try again", [])
+                    return
+                }
+
 //                if let status = valueDictionary[FieldNames.xscstatus] as? Int, status == -1 {
 //                    if let error = valueDictionary[FieldNames.message] as? String {
 //                        callback(error, [])
 //                        return
 //                    }
 //                }
-//                print("result fetched successfull")
-//                callback(nil, JSON(value))
-//            case .failure(let error):
-//                callback(error.localizedDescription, [])
-//            }
-//        }
-//    }
+                print("result fetched successfull")
+                callback(nil, JSON(value))
+            case .failure(let error):
+                callback(error.localizedDescription, [])
+            }
+        }
+    }
 }
 
 
